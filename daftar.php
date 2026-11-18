@@ -10,19 +10,25 @@ include "koneksi.php";
 <body>
 
 <?php
-// Pastikan file koneksi.php sudah di-include di bagian paling atas halaman
 if (isset($_POST['username'])) {
     $nama     = $_POST['nama'];
     $username = $_POST['username'];
     $password = md5($_POST['password']);
 
-    // Menyimpan data pengguna baru ke tabel user
-    $query = mysqli_query($koneksi, "INSERT INTO user (nama, username, password) VALUES ('$nama', '$username', '$password')");
-
-    if ($query) {
-        echo '<script>alert("Pendaftaran berhasil! Silakan login."); location.href="login.php";</script>';
+    $cek_username = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$username'");
+    
+    if (mysqli_num_rows($cek_username) > 0) {
+    
+        echo '<script>alert("Pendaftaran gagal: Username sudah terdaftar! Silakan gunakan username lain.");</script>';
     } else {
-        echo '<script>alert("Pendaftaran gagal, silakan coba lagi.");</script>';
+
+        $query = mysqli_query($koneksi, "INSERT INTO user (nama, username, password) VALUES ('$nama', '$username', '$password')");
+
+        if ($query) {
+            echo '<script>alert("Pendaftaran berhasil! Silakan login."); location.href="login.php";</script>';
+        } else {
+            echo '<script>alert("Pendaftaran gagal, silakan coba lagi.");</script>';
+        }
     }
 }
 ?>
