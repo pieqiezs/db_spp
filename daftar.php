@@ -22,7 +22,7 @@ if (isset($_POST['username'])) {
         echo '<script>alert("Pendaftaran gagal: Username sudah terdaftar! Silakan gunakan username lain.");</script>';
     } else {
 
-        $query = mysqli_query($koneksi, "INSERT INTO user (nama, username, password) VALUES ('$nama', '$username', '$password')");
+        $query = mysqli_query($koneksi, "INSERT INTO user (nama, username, password, role) VALUES ('$nama', '$username', '$password', '$siswa')");
 
         if ($query) {
             echo '<script>alert("Pendaftaran berhasil! Silakan login."); location.href="login.php";</script>';
